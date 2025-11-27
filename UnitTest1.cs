@@ -9,14 +9,14 @@ namespace CloudQA.AutomationTests
     [TestFixture]
     public class AutomationPracticeFormTests
     {
-        private IWebDriver? _driver;   // nullable to avoid warnings
+        private IWebDriver? _driver;   
         private const string BaseUrl = "https://app.cloudqa.io/home/AutomationPracticeForm";
 
         [SetUp]
         public void SetUp()
         {
             var options = new ChromeOptions();
-            // options.AddArgument("--headless"); // uncomment if you want headless mode
+           
 
             _driver = new ChromeDriver(options);
             _driver.Manage().Window.Maximize();
@@ -31,19 +31,15 @@ namespace CloudQA.AutomationTests
             if (_driver != null)
             {
                 _driver.Quit();
-                _driver.Dispose();   // fixes NUnit1032 analyzer error
+                _driver.Dispose();   
             }
         }
 
-        // ------------------------------------------------------------------
-        // Helper: find text INPUT associated with a label (by visible text)
-        // Uses XPath instead of RelativeBy, so it works on Selenium 3/4.
-        // ------------------------------------------------------------------
+    
         private IWebElement FindInputByLabel(string labelText)
         {
             if (_driver == null) throw new InvalidOperationException("WebDriver is not initialized.");
 
-            // Find the element with the label text, then the first input that comes after it
             string xpath = $"//*[normalize-space()='{labelText}']//following::input[1]";
             return _driver.FindElement(By.XPath(xpath));
         }
@@ -55,9 +51,6 @@ namespace CloudQA.AutomationTests
             input.SendKeys(value);
         }
 
-        // ------------------------------------------------------------------
-        // Helper: find a radio button by the visible option text, e.g. "Male"
-        // ------------------------------------------------------------------
         private IWebElement FindRadioByOptionText(string optionText)
         {
             if (_driver == null) throw new InvalidOperationException("WebDriver is not initialized.");
@@ -71,9 +64,7 @@ namespace CloudQA.AutomationTests
             return _driver.FindElement(radioLocator);
         }
 
-        // ------------------------------------------------------------------
-        // Helper: find a <select> dropdown associated with a label (by text)
-        // ------------------------------------------------------------------
+
         private IWebElement FindSelectByLabel(string labelText)
         {
             if (_driver == null) throw new InvalidOperationException("WebDriver is not initialized.");
@@ -95,7 +86,7 @@ namespace CloudQA.AutomationTests
             var firstNameInput = FindInputByLabel("First Name");
             string actualValue = firstNameInput.GetAttribute("value");
 
-            // Instead of Assert.AreEqual(...)
+        
             if (actualValue != expectedFirstName)
             {
                 throw new Exception(
@@ -113,7 +104,7 @@ namespace CloudQA.AutomationTests
 
             maleRadio.Click();
 
-            // Instead of Assert.IsTrue(...)
+            
             if (!maleRadio.Selected)
             {
                 throw new Exception("Male gender radio button was not selected after clicking.");
@@ -133,7 +124,7 @@ namespace CloudQA.AutomationTests
 
             string selectedText = select.SelectedOption.Text;
 
-            // Instead of Assert.AreEqual(...)
+          
             if (selectedText != "India")
             {
                 throw new Exception(
